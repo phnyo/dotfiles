@@ -1,0 +1,58 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+        colors = true
+        color_good = "#59b9c6"
+        color_degraded = "#aacf53"
+        color_bad = "#9a493f"
+        color_separator = "#96514d"
+        interval = 10
+}
+
+order += "read_file spotify"
+order += "cpu_usage"
+order += "memory"
+order += "battery all"
+order += "tztime local"
+order += "volume master"
+
+read_file spotify {
+        format = " %content"
+        path = "/var/log/scripts/spotify.log"
+}
+
+cpu_usage {
+        format = " CPU %usage "
+				max_threshold = 75
+}
+
+memory {
+        format = " MEM : %used "
+        threshold_degraded = "1G"
+        format_degraded = "MEMORY < %available"
+}
+
+battery all {
+        format = " %status %percentage REM %remaining "
+        status_chr = " CHR"
+        status_full =" FULL"
+        status_bat = " BAT"
+}
+
+tztime local {
+        format = "  %Y-%m-%d  %H:%M:%S JST "
+}
+
+volume master {
+        format = " VOL  %volume "
+        format_muted = " "
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}
