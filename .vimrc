@@ -24,6 +24,9 @@ syntax on
 
 nnoremap <C-j> }
 nnoremap <C-k> {
+nnoremap <C-d> :term<CR>
+nnoremap <C-d>v :vert term<CR>
+nnoremap <silent> <Space><Space> :let @/ = '\<' . expand('<cword>') . '\>'<CR>:set hlsearch<CR>
 
 " nerdtree settings
 nnoremap <leader>n :NERDTreeFocus<CR>
