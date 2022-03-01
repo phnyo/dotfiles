@@ -120,6 +120,8 @@ export LINKER_ENV=/home/n/sagri/linker/linker_venv/bin/activate
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
+alias pd=pandoc
 
 alias py=python3
-export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/n/.local/bin
+alias linkerenv="source $LINKER_ENV"
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/n/.local/bin:/usr/local/texlive/2021/bin/x86_64-linux:

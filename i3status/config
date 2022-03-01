@@ -53,7 +53,7 @@ battery all {
         format = "%status%percentage %remaining"
         status_chr = ""
         status_full =" "
-        status_bat = " "
+        status_bat =" "
         separator = false
 }
 

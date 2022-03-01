@@ -1,0 +1,53 @@
+* {
+  font-size: 13px;
+  background-color: transparent;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#workspaces button {
+  color: slategrey;
+}
+
+#workspaces button.visible {
+  color: dodgerblue;
+  font-weight: bold;
+  border-bottom: solid 3px white;
+}
+
+#window {
+  color: white;
+}
+
+#backlight {
+  color: slategrey;
+}
+
+#battery {
+  color: slategrey;
+}
+
+#cpu {
+  color: slategrey;
+}
+
+#clock {
+  color: slategrey;
+}
+
+#memory {
+  color: slategrey;
+}
+
+#mpd {
+  color: slategrey;
+}
+
+#network {
+  color: slategrey;
+}
+
+#pulseaudio {
+  color: slategrey;
+}
+
