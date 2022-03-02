@@ -44,16 +44,16 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
 
 # external displays
 
-set $mode_display Ext Screen (v) VGA ON, (h) HDMI ON, (x) VGA OFF, (y) HDMI OFF
-mode "$mode_display" {
-  bindsym v exec --no-startup-id xrandr --output VGA1 --auto --right-of LVDS1, mode "default"
-  bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1, mode "default"
-  bindsym v exec --no-startup-id xrandr --output VGA1 --auto --off, mode "default"
-  bindsym v exec --no-startup-id xrandr --output HDMI1 --auto --off, mode "default"
-  
-  bindsym Return mode "default"
-  bindsym Escape mode "default"
-}
+#set $mode_display Ext Screen (v) VGA ON, (h) HDMI ON, (x) VGA OFF, (y) HDMI OFF
+#mode "$mode_display" {
+#  bindsym v exec --no-startup-id xrandr --output VGA1 --auto --right-of LVDS1, mode "default"
+#  bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1, mode "default"
+#  bindsym v exec --no-startup-id xrandr --output VGA1 --auto --off, mode "default"
+#  bindsym v exec --no-startup-id xrandr --output HDMI1 --auto --off, mode "default"
+#  
+#  bindsym Return mode "default"
+#  bindsym Escape mode "default"
+#}
 
 bindsym $mod+x mode "$mode_display"
 

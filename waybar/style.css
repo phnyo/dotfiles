@@ -6,7 +6,7 @@
 }
 
 #workspaces button {
-  color: slategrey;
+  color: #7080a0;
 }
 
 #workspaces button.visible {
@@ -20,34 +20,34 @@
 }
 
 #backlight {
-  color: slategrey;
+  color: #7080a0;
 }
 
 #battery {
-  color: slategrey;
+  color: #7080a0;
 }
 
 #cpu {
-  color: slategrey;
+  color: #7080a0;
 }
 
 #clock {
-  color: slategrey;
+  color: #7080a0;
 }
 
 #memory {
-  color: slategrey;
+  color: #7080a0;
 }
 
 #mpd {
-  color: slategrey;
+  color: #7080a0;
 }
 
 #network {
-  color: slategrey;
+  color: #7080a0;
 }
 
 #pulseaudio {
-  color: slategrey;
+  color: #7080a0;
 }
 
