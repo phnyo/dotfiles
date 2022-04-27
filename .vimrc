@@ -8,12 +8,12 @@ colorscheme molokai
 "
 augroup TransparentBG
   	autocmd!
-	autocmd Colorscheme * highlight Normal ctermbg=none
-	autocmd Colorscheme * highlight NonText ctermbg=none
-	autocmd Colorscheme * highlight LineNr ctermbg=none
-	autocmd Colorscheme * highlight Folded ctermbg=none
+	autocmd Colorscheme * highlight Normal ctermbg=none 
+  autocmd Colorscheme * highlight NonText ctermbg=none 
+  autocmd Colorscheme * highlight LineNr ctermbg=none 
+  autocmd Colorscheme * highlight Folded ctermbg=none
 	autocmd Colorscheme * highlight EndOfBuffer ctermbg=none 
-	autocmd Colorscheme * highlight CursorLine ctermfg=LightBlue ctermbg=none
+	autocmd Colorscheme * highlight CursorLine cterm=underline ctermfg=yellow ctermbg=none
 augroup END
 
 set tabstop=2
@@ -37,7 +37,6 @@ set foldlevel=0
 set foldcolumn=5
 
 set hlsearch
-nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
 set incsearch
 set wildmenu
 
@@ -45,24 +44,23 @@ set splitright
 
 syntax on
 
+nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
 nnoremap <C-j> }
 nnoremap <C-k> {
 nnoremap <C-s> :w<CR>
-nnoremap <C-d> :term ++rows=10 <CR><C-W><C-R>
-nnoremap <C-d>v :vert term ++cols=40<CR><C-W>R
 nnoremap <silent> <Space><Space> :let @/ = '\<' . expand('<cword>') . '\>'<CR>:set hlsearch<CR>
 
 " nerdtree settings
-nnoremap <leader>n :NERDTreeFocus<CR>
+" nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 
-" lsp-vim settings
+"" lsp-vim settings
 nnoremap <C-f> :LspDocumentFormatSync<CR>
+
 
 " vim-plug plugins
 call plug#begin('~/.vim/plugged')
-""    Plug 'itchyny/lightline.vim'
   Plug 'lervag/vimtex'
   Plug 'prabirshrestha/vim-lsp'
   Plug 'mattn/vim-lsp-settings'
@@ -71,10 +69,13 @@ call plug#begin('~/.vim/plugged')
 	Plug 'preservim/nerdtree'
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
+  Plug 'machakann/vim-sandwich'
   Plug 'skanehira/preview-markdown.vim'
+  Plug 'lambdalisue/fern.vim'
+  Plug 'lambdalisue/gina.vim'
 call plug#end()
 
-let g:lsp_diagnostics_enabled = 0
+let g:lsp_diagnostics_enabled = 1
 
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -95,9 +96,14 @@ if (executable('haskell-language-server-wrapper'))
       \ })
 endif
 
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" statusline
+noremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
+" runtime ftplugin/man.vim
+
+" statusline
+"
 function! GitBranch()
   return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
 endfunction
@@ -106,35 +112,40 @@ function! StatuslineGit()
   let l:branchname = GitBranch()
   let l:branchlen = strlen(l:branchname)
   if l:branchname == "main" || l:branchname == "master"
-    hi PmenuSel ctermfg=White ctermbg=Red
+    hi PmenuSel ctermfg=White ctermbg=DarkMagenta
     return '  CUR_BR: '.l:branchname.' '
   elseif l:branchname != "HEAD"
-    hi PmenuSel ctermfg=White ctermbg=Blue
+    hi PmenuSel ctermfg=White ctermbg=DarkBlue
     return '  CUR_BR: '.l:branchname.' '
   else
     hi PmenuSel ctermfg=White ctermbg=Black
-    return '  Git Uninitialized '
+    return '  Git NOTINIT '
   endif
 endfunction
 
 function! SetModeColors(mode)
   if a:mode == 'i'
-    hi CursorColumn ctermfg=White ctermbg=DarkMagenta
+    hi CursorColumn ctermfg=White ctermbg=DarkYellow
     return '[INSERT]'
   elseif a:mode == 'v' || a:mode == 'V' || a:mode == 'CTRL-V'
-    hi CursorColumn ctermfg=White ctermbg=DarkGreen
+    hi CursorColumn ctermfg=White ctermbg=DarkMagenta
     return '[VISUAL]'
   elseif a:mode == 'n'
-    hi CursorColumn ctermfg=White ctermbg=DarkCyan
+    hi CursorColumn ctermfg=White ctermbg=DarkBlue
     return '[NORMAL]'
   elseif a:mode == 'R'
-    hi CursorColumn ctermfg=White ctermbg=Brown
+    hi CursorColumn ctermfg=White ctermbg=DarkGray
     return '[REPLACE]'
   else
     hi CursorColumn ctermfg=White ctermbg=Black
     return '[UNDEF]'
   endif
 endfunction
+
+au BufWritePost *.md PreviewMarkdown
+au BufWritePost *.cpp LspDocumentFormat 
+au BufWritePost *.py LspDocumentFormat 
+au BufWritePost *.ts LspDocumentFormat 
 
 hi PmenuSel ctermfg=White ctermbg=NONE
 hi CursorColumn ctermfg=White ctermbg=DarkBlue

@@ -87,7 +87,7 @@
     },
     "memory": {
         "format": "mem: {used:0.1f} G / {total: 0.1f} G ",
-        "interval": 30
+        "interval": 5 
     },
     "temperature": {
         // "thermal-zone": 2,
@@ -103,12 +103,13 @@
         "format-icons": ["", ""]
     },
     "battery": {
+        "bat": "BAT1",
         "states": {
             // "good": 95,
             "warning": 30,
             "critical": 15
         },
-        "format": "[BAT] {capacity}%",
+        "format": "[BAT1] {capacity}%",
         "format-charging": "[CRG] {capacity}%",
         "format-plugged": "[PLUG] {capacity}%",
         "format-alt": "{time}",
@@ -118,7 +119,10 @@
         "interval": 30
     },
     "battery#bat2": {
-        "bat": "BAT2"
+        "bat": "BAT2",
+        "format": "[BAT2] {capacity}%",
+        "format-charging": "[CRG] {capacity}%",
+        "format-plugged": "[PLUG] {capacity}%"
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface

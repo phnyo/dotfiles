@@ -12,7 +12,7 @@ general {
         color_degraded = "#aacf53"
         color_bad = "#9a493f"
         color_separator = "#96514d"
-        interval = 3
+        interval = 1
 }
 
 order += "read_file spotify"
@@ -58,7 +58,7 @@ battery all {
 }
 
 tztime local {
-        format = " %Y-%m-%d %H:%M JST"
+        format = " %Y-%m-%d %H:%M:%S JST"
 	      separator = false
 }
 

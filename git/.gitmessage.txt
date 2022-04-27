@@ -1,0 +1,8 @@
+Subject (Under 50 chars)
+
+What am I trying to achieve with this commit?
+summary of changes in details
+ - like
+ - this
+
+[reference or tickets: #XXX]
