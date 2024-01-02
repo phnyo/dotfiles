@@ -2,10 +2,11 @@
 # It will not be overwritten, so edit it as you like.  # # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
 # 
-# i3 config file (v4)
+# sway config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+output * background ./bg.jpg center
 set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -23,7 +24,6 @@ font pango:monospace 8
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id ibus-daemon -x -d -r
-output "*" background $HOME/.config/i3/wallpaper.jpg fill
 exec --no-startup-id compton -cbm 0.6
 exec --no-startup-id dunst -print -config "$HOME/.config/dunst/dunstrc"
 
@@ -44,15 +44,15 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 10%-
 
 #  set $mode_display Ext Screen (v) VGA ON, (h) HDMI ON, (x) VGA OFF, (y) HDMI OFF
 #
-#mode "$mode_display" {
-#    bindsym v exec --no-startup-id xrandr --output VGA1 --auto --right-of LVDS1, mode "default"
-#    bindsym h exec --no-startup-id xrandr --output HDMI1 --auto --right-of LVDS1, mode "default"
-#    bindsym v exec --no-startup-id xrandr --output VGA1 --auto --off, mode "default"
-#    bindsym v exec --no-startup-id xrandr --output HDMI1 --auto --off, mode "default"
-#    
-#    bindsym Return mode "default"
-#    bindsym Escape mode "default"
-#  }
+mode "$mode_display" {
+    bindsym h output HDMI-A-1 enable, mode "default"
+    bindsym d output DisplayPort-1 enable, mode "default"
+    bindsym x output HDMI-A-1 disable, mode "default"
+    bindsym y output DisplayPort-1 disable, mode "default"
+    
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+  }
 
 bindsym $mod+x mode "$mode_display"
 
@@ -61,7 +61,7 @@ bindsym $mod+x mode "$mode_display"
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec wezterm
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+q kill
@@ -169,7 +169,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your wayland session.' -B 'Yes, exit sway' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -201,26 +201,30 @@ bindsym $mod+r mode "resize"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-  swaybar_command waybar
-} 
+    swaybar_command waybar
+}
 
-gaps inner 10
-gaps outer 10
+gaps inner 8
+gaps left 15 
+gaps right 30
+gaps vertical 10
+#gaps outer 10 
 
 # client.<class> <border> <background> <text> <indicator> <child_border>
 #client.focused "#aaaaaa" "#19197000"  "#ffffff" "ffffff" "#aaaaaa"
 #client.unfocused "#000000" "#66cdaa00"  "#aaaaaa" "ffffff"
 
-client.focused          #aaaaaa #aaaaaa #000b1e #aaaaaa #aaaaaa 
-client.focused_inactive #000b1e #000b1e #0abdc6 #000b1e #000b1e
-client.unfocused    #000b1e #000b1e #0abdc6 #000b1e #000b1e
-client.urgent           #ff0000 #ff0000 #000b1e #ff0000 #ff0000
-client.placeholder      #000b1e #000b1e #0abdc6 #000b1e #000b1e
+client.focused          #000b1e00 #000b1e00 #e9eeff #000b1e #000b1e00
+client.focused_inactive #000b1e00 #000b1e00 #e9eeff #000b1e #000b1e00
+client.unfocused        #bbbbbb00 #bbbbbb00 #000b1e #aaaaaa #bbbbbb00
+client.placeholder      #000b1e00 #000b1e00 #0abdc6 #000b1e #000b1e00
 
 # Cursor
 
 seat seat0 xcursor_theme Breeze-Hacked 28
 
-input "type:keyboard" { 
-  xkb_options ctrl:nocaps
+input * {
+        xkb_options "ctrl:nocaps"
 }
+
+exec --no-startup-id fcitx5

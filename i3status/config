@@ -15,7 +15,6 @@ general {
         interval = 1
 }
 
-order += "read_file spotify"
 order += "read_file weather"
 order += "cpu_usage"
 order += "memory"
@@ -24,15 +23,9 @@ order += "tztime local"
 order += "wireless _first_"
 order += "volume master"
 
-read_file spotify {
-        format = " %content"
-        path = "/home/n/.cache/spotify/spotify.log"
-        separator = false
-}
-
 read_file weather {
-        format = " %content"
-        path = "/home/n/.cache/weather/weather.log"
+        format = "%content"
+        path = ".cache/weather/weather.log"
         separator = false
 }
 
@@ -43,7 +36,7 @@ cpu_usage {
 }
 
 memory {
-        format = " %used"
+        format = "mem %used"
         threshold_degraded = "1G"
         format_degraded = "MEMORY < %available"
         separator = false
@@ -51,28 +44,30 @@ memory {
 
 battery all {
         format = "%status%percentage %remaining"
-        status_chr = ""
-        status_full =" "
-        status_bat =" "
+        status_chr = "cha "
+        status_full ="ful "
+        status_bat ="🔋"
         separator = false
 }
 
 tztime local {
-        format = " %Y-%m-%d %H:%M:%S JST"
+        format = "%Y/%m/%d %H:%M:%S JST"
 	      separator = false
 }
 
 wireless _first_ {
-        format_up  = " %bitrate"
+        format_up  = "wlan:%essid %bitrate @%ip"
         format_down = "No wifi :<"
         separator = false
+        min_width = 30
 }
 
 volume master {
-        format = "%volume"
-        format_muted = " "
+        format = "🔊%volume"
+        format_muted = "mut "
         device = "default"
         mixer = "Master"
         mixer_idx = 0
 	separator = false
 }
+

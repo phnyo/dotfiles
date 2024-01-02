@@ -1,24 +1,29 @@
 set fileencodings=utf-8
 set encoding=utf-8
-"packadd! dracula
-"colorscheme dracula 
-colorscheme molokai
-"colorscheme srcery
-"colorscheme tender
-"
+packadd termdebug
+packadd indentLine
+
 augroup TransparentBG
   	autocmd!
 	autocmd Colorscheme * highlight Normal ctermbg=none 
   autocmd Colorscheme * highlight NonText ctermbg=none 
   autocmd Colorscheme * highlight LineNr ctermbg=none 
-  autocmd Colorscheme * highlight Folded ctermbg=none
-	autocmd Colorscheme * highlight EndOfBuffer ctermbg=none 
+  autocmd Colorscheme * highlight Folded ctermbg=none autocmd Colorscheme * highlight EndOfBuffer ctermbg=none 
 	autocmd Colorscheme * highlight CursorLine cterm=underline ctermfg=yellow ctermbg=none
+augroup END
+
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave * mkview
+  autocmd BufWinEnter * silent! loadview
 augroup END
 
 set tabstop=2
 set shiftwidth=2
 set expandtab
+
+set nobackup
+set noswapfile
 
 set laststatus=2
 set number
@@ -27,6 +32,10 @@ set autoindent
 set smartindent
 
 set showmode
+set display=uhex
+set wrap
+set splitright
+set splitbelow
 
 "set backupdir=~/.cache/vim/backup/
 "set dir=~/.cache/vim/swp/
@@ -40,9 +49,9 @@ set hlsearch
 set incsearch
 set wildmenu
 
-set splitright
-
 syntax on
+
+let g:indentLine_char = '|'
 
 nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
 nnoremap <C-j> }
@@ -55,24 +64,20 @@ nnoremap <silent> <Space><Space> :let @/ = '\<' . expand('<cword>') . '\>'<CR>:s
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 
-"" lsp-vim settings
-nnoremap <C-f> :LspDocumentFormatSync<CR>
-
-
 " vim-plug plugins
 call plug#begin('~/.vim/plugged')
   Plug 'lervag/vimtex'
-  Plug 'prabirshrestha/vim-lsp'
-  Plug 'mattn/vim-lsp-settings'
-	Plug 'prabirshrestha/asyncomplete.vim'
-	Plug 'prabirshrestha/asyncomplete-lsp.vim'
+  Plug 'nvim-lualine/lualine.nvim'
 	Plug 'preservim/nerdtree'
-  Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
   Plug 'machakann/vim-sandwich'
   Plug 'skanehira/preview-markdown.vim'
   Plug 'lambdalisue/fern.vim'
   Plug 'lambdalisue/gina.vim'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'craigmac/vim-mermaid'
+  Plug 'anuvyklack/pretty-fold.nvim'
 call plug#end()
 
 let g:lsp_diagnostics_enabled = 1
@@ -82,25 +87,21 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ asyncomplete#force_refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
 
-if (executable('haskell-language-server-wrapper'))
-  au User lsp_setup call lsp#register_server({
-      \ 'name': 'haskell-language-server-wrapper',
-      \ 'cmd': {server_info->['haskell-language-server-wrapper', '--lsp']},
-      \ 'whitelist': ['haskell'],
-      \ })
-endif
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-noremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" runtime ftplugin/man.vim
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " statusline
 "
@@ -125,13 +126,13 @@ endfunction
 
 function! SetModeColors(mode)
   if a:mode == 'i'
-    hi CursorColumn ctermfg=White ctermbg=DarkYellow
+    hi CursorColumn ctermfg=White ctermbg=DarkBlue
     return '[INSERT]'
   elseif a:mode == 'v' || a:mode == 'V' || a:mode == 'CTRL-V'
     hi CursorColumn ctermfg=White ctermbg=DarkMagenta
     return '[VISUAL]'
   elseif a:mode == 'n'
-    hi CursorColumn ctermfg=White ctermbg=DarkBlue
+    hi CursorColumn ctermfg=White ctermbg=DarkYellow
     return '[NORMAL]'
   elseif a:mode == 'R'
     hi CursorColumn ctermfg=White ctermbg=DarkGray
@@ -142,10 +143,10 @@ function! SetModeColors(mode)
   endif
 endfunction
 
-au BufWritePost *.md PreviewMarkdown
-au BufWritePost *.cpp LspDocumentFormat 
-au BufWritePost *.py LspDocumentFormat 
-au BufWritePost *.ts LspDocumentFormat 
+
+"au BufWritePost *.cpp LspDocumentFormat 
+"au BufWritePost *.c LspDocumentFormat 
+" au BufWritePost *.py LspDocumentFormat 
 
 hi PmenuSel ctermfg=White ctermbg=NONE
 hi CursorColumn ctermfg=White ctermbg=DarkBlue
@@ -153,6 +154,7 @@ hi LineNr ctermfg=White ctermbg=NONE
 
 set statusline=
 set statusline+=%#PmenuSel#
+set statusline+=\ %{SetModeColors(mode())}
 set statusline+=%{StatuslineGit()}
 set statusline+=%#LineNr#
 set statusline+=\ %f
@@ -160,7 +162,6 @@ set statusline+=%m\
 set statusline+=%=
 set statusline+=%#CursorColumn#
 set statusline+=\ %y
-set statusline+=\ %{SetModeColors(mode())}
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
 set statusline+=\ %p%%

@@ -1,53 +1,29 @@
 * {
+  border: none;
   font-size: 13px;
-  background-color: transparent;
-  padding-left: 4px;
-  padding-right: 4px;
+  color: #C2E9EA;
+  margin: 2.5px 0px 0px 0px;
+  padding: 0px 5px;
+}
+
+window#waybar {
+  background: transparent;
 }
 
 #workspaces button {
-  color: #7080a0;
+  color: #0EE6DE;
+  padding: 0px 5px;
 }
 
-#workspaces button.visible {
-  color: dodgerblue;
+.modules-left {
+  font-style: italic;
   font-weight: bold;
-  border-bottom: solid 3px white;
+  font-size: 16px;
 }
 
-#window {
-  color: white;
+#workspaces button.focused { 
+  border: 3px solid #C2E9EA;
+  border-radius: 0% 0% 30% 0%;
 }
 
-#backlight {
-  color: #7080a0;
-}
-
-#battery {
-  color: #7080a0;
-}
-
-#cpu {
-  color: #7080a0;
-}
-
-#clock {
-  color: #7080a0;
-}
-
-#memory {
-  color: #7080a0;
-}
-
-#mpd {
-  color: #7080a0;
-}
-
-#network {
-  color: #7080a0;
-}
-
-#pulseaudio {
-  color: #7080a0;
-}
 
